@@ -1,9 +1,17 @@
 window.addEventListener("load", ()=>{
     let long;
     let lat;
+    
     let locationTimezone =document.querySelector(".location-timezone");
     let temperatureDegree =document.querySelector(".temperature-degree");
     let temperatureDescruption =document.querySelector(".temperature-descruption");
+    
+    let temperatureSection =document.querySelector('.temperature-section')
+    let temperatureSpan =document.querySelector('.temperature-section span')
+
+
+    
+    
 
 
     if(navigator.geolocation){
@@ -29,14 +37,37 @@ window.addEventListener("load", ()=>{
                     const temp=data.main.temp;
                     const desc =data.weather[0].description;
                     const {name}= data;
+                    const icons =data.weather[0].icon;
                     
 
                     //Set DOM Elements from the Weather API
-                    temperatureDegree.textContent=temp;
+                    
                     temperatureDescruption.textContent=`it's ${desc}`;
-                    locationTimezone.textContent=`Time Zone: ${name}`;
+                    locationTimezone.textContent=name;
+                    temperatureDegree.textContent=Math.floor(temp);
+                    
+                    //Fromula
+                    let Celsius =(temp-32)*(5 / 9);
+
+
+                    //Set icon 
+                    document.getElementById('icon').src=`http://openweathermap.org/img/wn/${icons}@2x.png`;
+                    
+                    
+                    // change temperature to Celsius/Farenheit
+                    temperatureSection.addEventListener('click', ()=>{
+                        if(temperatureSpan.textContent==="F"){
+                            temperatureSpan.textContent='C';
+                            temperatureDegree.textContent=Math.floor(Celsius);
+
+                        }else{
+                            temperatureSpan.textContent='F';
+                            temperatureDegree.textContent=Math.floor(temp);
+                        }
+                    })
 
                     
+
 
                 });
                 
